@@ -1,6 +1,7 @@
 import imgArray from './gallery-items.js';
 
 let index;
+let maxIndex = imgArray.length - 1;
 
 const refs = {
     gallery: document.querySelector('.js-gallery'),
@@ -53,11 +54,26 @@ function onGalleryClick(event) {
 function onModalClick(event) {
     const imgRef = event.target;
 
-    if (imgRef.nodeName !== 'IMG') {
+    if (imgRef.nodeName !== 'IMG' && imgRef.dataset.action !== 'right-lightbox' && imgRef.dataset.action !== 'left-lightbox') {
         refs.modal.classList.remove('is-open');
         refs.originalImg.removeAttribute('src');
     }
 
+    if (imgRef.dataset.action === 'right-lightbox' && index <= maxIndex) {
+        refs.originalImg.src = imgArray[index += 1].original;
+    }
+    if (imgRef.dataset.action === 'right-lightbox' && index > maxIndex) {
+        refs.originalImg.src = imgArray[0].original;
+        index = 0;
+    }
+
+    if (imgRef.dataset.action === 'left-lightbox' && index >= 0) {
+        refs.originalImg.src = imgArray[index -= 1].original;
+    }
+    if (imgRef.dataset.action === 'left-lightbox' && index < 0) {
+        refs.originalImg.src = imgArray[maxIndex].original;
+        index = maxIndex;
+    }
 }
 function onModalKeypress(event) {
     if (event.code === 'Escape') {
@@ -65,7 +81,7 @@ function onModalKeypress(event) {
         refs.originalImg.removeAttribute('src');
     }
 
-    if (event.code === 'ArrowRight' && (index + 1) < imgArray.length) {
+    if (event.code === 'ArrowRight' && index < (imgArray.length - 1)) {
         refs.originalImg.removeAttribute('src');
         refs.originalImg.src = imgArray[index += 1].original;
     }
@@ -80,3 +96,5 @@ function whatIndex(currentItem) {
 }
 
 refs.gallery.append(...createGallegy(imgArray));
+
+console.dir(refs.modal);

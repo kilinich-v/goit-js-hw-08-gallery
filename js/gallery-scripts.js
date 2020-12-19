@@ -96,5 +96,3 @@ function whatIndex(currentItem) {
 }
 
 refs.gallery.append(...createGallegy(imgArray));
-
-console.dir(refs.modal);

@@ -55,40 +55,43 @@ function onModalClick(event) {
     const imgRef = event.target;
 
     if (imgRef.nodeName !== 'IMG' && imgRef.dataset.action !== 'right-lightbox' && imgRef.dataset.action !== 'left-lightbox') {
-        refs.modal.classList.remove('is-open');
-        refs.originalImg.removeAttribute('src');
+        onCloseModal();
     }
 
-    if (imgRef.dataset.action === 'right-lightbox' && index <= maxIndex) {
-        refs.originalImg.src = imgArray[index += 1].original;
-    }
-    if (imgRef.dataset.action === 'right-lightbox' && index > maxIndex) {
-        refs.originalImg.src = imgArray[0].original;
-        index = 0;
+    if (imgRef.dataset.action === 'right-lightbox') {
+        index = index === maxIndex ? 0 : index + 1;
+
+        refs.originalImg.src = imgArray[index].original;
     }
 
-    if (imgRef.dataset.action === 'left-lightbox' && index >= 0) {
-        refs.originalImg.src = imgArray[index -= 1].original;
-    }
-    if (imgRef.dataset.action === 'left-lightbox' && index < 0) {
-        refs.originalImg.src = imgArray[maxIndex].original;
-        index = maxIndex;
+    if (imgRef.dataset.action === 'left-lightbox') {
+        index = index === 0 ? maxIndex : index - 1;
+
+        refs.originalImg.src = imgArray[index].original;
     }
 }
 function onModalKeypress(event) {
     if (event.code === 'Escape') {
-        refs.modal.classList.remove('is-open');
-        refs.originalImg.removeAttribute('src');
+        onCloseModal();
     }
 
-    if (event.code === 'ArrowRight' && index < (imgArray.length - 1)) {
+    if (event.code === 'ArrowRight') {
+        index = index === maxIndex ? 0 : index + 1;
+
         refs.originalImg.removeAttribute('src');
-        refs.originalImg.src = imgArray[index += 1].original;
+        refs.originalImg.src = imgArray[index].original;
     }
-    if (event.code === 'ArrowLeft' && index > 0) {
+    if (event.code === 'ArrowLeft') {
+        index = index === 0 ? maxIndex : index - 1;
+
         refs.originalImg.removeAttribute('src');
-        refs.originalImg.src = imgArray[index -= 1].original;
+        refs.originalImg.src = imgArray[index].original;
     }
+}
+
+function onCloseModal() {
+    refs.modal.classList.remove('is-open');
+    refs.originalImg.removeAttribute('src');
 }
 
 function whatIndex(currentItem) {

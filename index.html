@@ -5,10 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Homework 8</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 		<link rel="stylesheet" href="css/styles.css" />
 	</head>
 	<body>
 		<!-- В этот список добавляй элементы галереи -->
+		<h1>Gallary with lazy load</h1>
 		<ul class="gallery js-gallery"></ul>
 
 		<!--
@@ -20,7 +22,7 @@
 
 			<div class="lightbox__content">
 				<button type="button" class="lightbox__button lightbox__button--left" data-action="left-lightbox"></button>
-				<img class="lightbox__image" src="" alt="" />
+				<img class="lightbox__image" />
 				<button type="button" class="lightbox__button lightbox__button--right" data-action="right-lightbox"></button>
 			</div>
 
@@ -28,6 +30,7 @@
 		</div>
 
 		<script src="./js/gallery-items.js" type="module"></script>
+		<script src="./js/gallery-create.js" type="module"></script>
 		<script src="./js/gallery-scripts.js" type="module"></script>
 	</body>
 </html>

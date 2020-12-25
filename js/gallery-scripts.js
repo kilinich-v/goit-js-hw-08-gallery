@@ -14,7 +14,6 @@ refs.modal.addEventListener('click', onModalClick);
 window.addEventListener('keydown', onModalKeypress);
 
 const createImg = (item, idx) => {
-
     const listItem = document.createElement('li');
     listItem.classList.add('gallery__item');
 
@@ -24,7 +23,7 @@ const createImg = (item, idx) => {
 
     const img = document.createElement('img');
     img.classList.add('gallery__image', 'js-gallery__image');
-    img.setAttribute('src', item.preview);
+    img.setAttribute('data-lazy', item.preview);
     img.setAttribute('alt', item.description);
     img.setAttribute('data-source', idx);
 
@@ -96,4 +95,32 @@ function onCloseModal() {
     refs.originalImg.removeAttribute('src');
 }
 
+const lazyLoad = targets => {
+    const options = {
+        rootMargin: '30px',
+    };
+
+    const onEntry = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const item = entry.target;
+                const img = item.childNodes[0].childNodes[0];
+                const src = img.dataset.lazy;
+
+                img.src = src;
+                item.classList.add('animate__animated', 'animate__fadeInUp', 'animate__fadeIn');
+                observer.unobserve(img);
+            }
+        })
+    };
+
+    const io = new IntersectionObserver(onEntry, options);
+
+    targets.forEach(target => io.observe(target));
+}
+
 refs.gallery.append(...createGallegy(imgArray));
+const images = document.querySelectorAll('.gallery__item');
+
+lazyLoad(images);
+

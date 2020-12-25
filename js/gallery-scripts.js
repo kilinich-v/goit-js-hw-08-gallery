@@ -120,7 +120,6 @@ const lazyLoad = targets => {
 }
 
 refs.gallery.append(...createGallegy(imgArray));
-const images = document.querySelectorAll('.gallery__item');
 
-lazyLoad(images);
+lazyLoad(refs.gallery.childNodes);
 
